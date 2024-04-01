@@ -54,7 +54,7 @@ include ('database_connection.php');
                         if ($result) {
                             while ($row = mysqli_fetch_row($result)) {
                                 $table_name = $row[0];
-                                if ($table_name !== 'country') {
+                                if ($table_name !== 'country' && $table_name !== 'login') {
                                     $status_query = "SELECT DISTINCT(status) FROM $table_name ORDER BY id DESC";
                                     $status_statement = mysqli_query($connect, $status_query);
                                     $status_result = mysqli_fetch_all($status_statement, MYSQLI_ASSOC);
@@ -85,7 +85,7 @@ include ('database_connection.php');
                     if ($result) {
                         while ($row = mysqli_fetch_row($result)) {
                             $table_name = $row[0];
-                            if ($table_name !== 'country') {
+                            if ($table_name !== 'country' && $table_name !== 'login') {
                                 $size_query = "SELECT DISTINCT(nop) FROM $table_name ORDER BY nop DESC";
                                 $size_statement = mysqli_query($connect, $size_query);
                                 $size_result = mysqli_fetch_all($size_statement, MYSQLI_ASSOC);
