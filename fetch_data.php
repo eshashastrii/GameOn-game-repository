@@ -21,7 +21,7 @@ if (isset($_POST["action"])) {
 				}
 			}
 			foreach ($tables as $table) {
-				$table_query = "SELECT id, Title, status, nop, timelimit, photo, tlimit FROM $table WHERE 1=1";
+				$table_query = "SELECT id, Title, status, nop, timelimit, photo, tlimit, coo FROM $table WHERE 1=1";
 				if (!empty($minimum_price) && !empty($maximum_price)) {
 					$table_query .= " AND timelimit BETWEEN $minimum_price AND $maximum_price";
 				}
@@ -48,16 +48,26 @@ if (isset($_POST["action"])) {
 				$data = $result->fetch_all(MYSQLI_ASSOC);
 				foreach ($data as $row) {
 					$output .= '
-                    <div class="col-sm-4 col-lg-3 col-md-3">
-                        <div style="border:1px solid #ccc; border-radius:5px; padding:16px; margin-bottom:16px; height:450px;">
-                            <img src="' . $row['photo'] . '" alt="" class="img-responsive" >
-                            <h4 style="text-align:center;" class="text-danger" ><a href="#">' . $row['Title'] . '</a><br /></h4>
-                            Time Limit:' . $row['tlimit'] . '<br />
-                            Status : ' . $row['status'] . ' <br />
-                            No. of Players: ' . $row['nop'] . ' <br />
-                        </div>
-                    </div>
-                    ';
+							<div class="col-sm-4 col-lg-3 col-md-3">
+								<div style="border:1px solid #ccc; border-radius:5px; padding:16px; margin-bottom:16px; height:450px;">
+									<img src="' . $row['photo'] . '" alt="" class="img-responsive" >
+									<h4 style="text-align:center;" class="text-danger" ><a href="detail.php?name=' . $row['coo'] . '&&id=' . $row['id'].'">' . $row['Title'] . '</a><br /></h4>';
+
+							if (!empty($row['tlimit'])) {
+							$output .= 'Time Limit:' . $row['tlimit'] . '<br />';
+							}
+
+							if (!empty($row['status'])) {
+							$output .= 'Status : ' . $row['status'] . ' <br />';
+							}
+							if (!empty($row['nop'])) {
+							$output .= 'No. of Players: ' . $row['nop'] . ' <br />';
+							}
+
+							$output .= '
+								</div>
+							</div>';
+
 				}
 			} else {
 				$output = '<h3>No Data Found</h3>';

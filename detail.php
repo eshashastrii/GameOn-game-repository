@@ -6,7 +6,7 @@ if (!$conn) {
 if (isset ($_GET['id']) && isset ($_GET['name'])) {
     $id = mysqli_real_escape_string($conn, $_GET['id']);
     $name = mysqli_real_escape_string($conn, $_GET['name']);
-    $sql = "SELECT id, Title, country, status, size, tlimit, edetails, ephoto, cdetails, cphoto, fdetails, fphoto, rules, photo, vlink, terms, types, playerlist, artiphoto, artinfo FROM $name WHERE id = $id";
+    $sql = "SELECT id, Title, country, status, size, tlimit, edetails, ephoto, cdetails, cphoto, fdetails, fphoto, rules, photo, vlink, terms, types, playerlist, artiphoto, artinfo, vidname FROM $name WHERE id = $id";
     $result = mysqli_query($conn, $sql);
     $records = mysqli_fetch_assoc($result);
 
@@ -32,6 +32,14 @@ if (isset ($_GET['id']) && isset ($_GET['name'])) {
                     <li class="item"><a href="index.php">Home</a></li>
                     <li class="item"><a href=""> About us</a></li>
                     <li class="item"><a href="">Contact us</a></li>
+                    <li class="item"><a href="userindex.php" onclick="return confirm('Are you sure you want to LOGOUT?')"><div class="icon-container">
+                    <svg class="icon1" viewBox="0 0 24 24" fill="#000000" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 12L13 12" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M18 15L20.913 12.087V12.087C20.961 12.039 20.961 11.961 20.913 11.913V11.913L18 9" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16 5V4.5V4.5C16 3.67157 15.3284 3 14.5 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H14.5C15.3284 21 16 20.3284 16 19.5V19.5V19" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    </div>
+                    </a></li>
                 </ul>
             </nav>
         </header>
@@ -84,7 +92,7 @@ if (isset ($_GET['id']) && isset ($_GET['name'])) {
         <div class="grid1">
             <?php if (!empty ($records['edetails'])): ?>
                 <div>
-                <h2>Equipment</h2>
+                <h2>Equipments</h2>
                 <p>
                     <?php echo nl2br(htmlspecialchars($records['edetails'])); ?>
                 </p>
@@ -95,7 +103,7 @@ if (isset ($_GET['id']) && isset ($_GET['name'])) {
             <?php endif; ?>
         </div>
         <div class="grid1">
-            <?php endif; ?>
+    
             <?php if ($records['cphoto'] !== 'Images/'): ?>
                 <img src="<?php echo $records['cphoto']; ?>" class='drink1'>
             <?php endif; ?>
@@ -106,6 +114,7 @@ if (isset ($_GET['id']) && isset ($_GET['name'])) {
                     <?php echo nl2br(htmlspecialchars($records['cdetails'])); ?>
                 </p>
                 </div>
+                <?php endif; ?>
             </div>
             <div class="grid1">
             <?php if (!empty ($records['fdetails'])): ?>
@@ -127,12 +136,16 @@ if (isset ($_GET['id']) && isset ($_GET['name'])) {
                     <?php echo nl2br(htmlspecialchars($records['rules'])); ?>
                 </p>
             <?php endif; ?>
-            <?php if (!empty ($records['vlink'])): ?>
+            <?php if (!empty($records['vlink'])): ?>
                 <h2>Video links</h2>
                 <p>
-                    <?php echo nl2br(htmlspecialchars($records['vlink'])); ?>
+                    <h3><?php if (!empty ($records['vidname'])): ?>
+                    <?php echo nl2br(htmlspecialchars($records['vidname'])); ?>
+            <?php endif; ?></h3>
+                    <a href="<?php echo htmlspecialchars($records['vlink']); ?>" target="_blank"><?php echo htmlspecialchars($records['vlink']); ?></a>
                 </p>
             <?php endif; ?>
+
             <?php if (!empty ($records['terms'])): ?>
                 <h2>Terminologies</h2>
                 <p>

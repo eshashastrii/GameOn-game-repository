@@ -24,7 +24,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: url('../bg2.jpg') no-repeat center/cover; /* Replace 'your-background-image.jpg' with your image path */
+    background: url('sp.jpg') no-repeat center/cover; /* Replace 'your-background-image.jpg' with your image path */
     background-size:60%; /* Adjust the background size */
     height: 600px;
     width:100%;

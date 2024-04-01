@@ -1,3 +1,4 @@
+
 <?php
 $conn = mysqli_connect('localhost', 'root', '', 'sports');
 if (!$conn) {
@@ -31,6 +32,9 @@ if (isset ($_GET['id'])) {
         $other_related_types = mysqli_real_escape_string($conn, $_POST['types']);
         $celebrity_players = mysqli_real_escape_string($conn, $_POST['list']);
         $art = mysqli_real_escape_string($conn, $_POST['art']);
+        $nsize = mysqli_real_escape_string($conn, $_POST['nsize']);
+        $tl = mysqli_real_escape_string($conn, $_POST['tl']);
+        $vname = mysqli_real_escape_string($conn, $_POST['vname']);
 
         $file1 = !empty ($_FILES['file1']['name']) ? "Images/" . $_FILES['file1']['name'] : $record['photo'];
         $file2 = !empty ($_FILES['file2']['name']) ? "Images/" . $_FILES['file2']['name'] : $record['ephoto'];
@@ -44,7 +48,7 @@ if (isset ($_GET['id'])) {
         move_uploaded_file($_FILES['file3']['tmp_name'], $file3);
         move_uploaded_file($_FILES['file4']['tmp_name'], $file4);
         move_uploaded_file($_FILES['file5']['tmp_name'], $file5);
-        $sql = "UPDATE $name1 SET id1='$id1', Title = '$name', photo='$file1', country = '$country', status = '$status', size = '$team_size', tlimit = '$time_limit', edetails = '$equipment_details', ephoto = '$file2', cdetails = '$costume_details', cphoto = '$file3', fdetails = '$footwear_details', fphoto = '$file4', rules = '$rules', vlink = '$video_links', terms = '$terminologies_used', types = '$other_related_types', playerlist = '$celebrity_players', artiphoto = '$file5', artinfo='$art' WHERE id = $id";
+        $sql = "UPDATE $name1 SET id1='$id1', Title = '$name', photo='$file1', country = '$country', status = '$status', size = '$team_size', tlimit = '$time_limit', edetails = '$equipment_details', ephoto = '$file2', cdetails = '$costume_details', cphoto = '$file3', fdetails = '$footwear_details', fphoto = '$file4', rules = '$rules', vlink = '$video_links', terms = '$terminologies_used', types = '$other_related_types', playerlist = '$celebrity_players', artiphoto = '$file5', artinfo='$art', nop='$nsize', timelimit='$tl', vidname='$vname' WHERE id = $id";
         $result = mysqli_query($conn, $sql);
         if (mysqli_query($conn, $sql)) {
             header('Location: india.php?name=' . $name1);
@@ -76,9 +80,17 @@ mysqli_close($conn);
             <a class="logo">GameOn</a>
             <nav class="header">
                 <ul>
-                    <li class="item"><a href="index.html">Home</a></li>
+                    <li class="item"><a href="index.php">Home</a></li>
                     <li class="item"><a href=""> About us</a></li>
                     <li class="item"><a href="">Contact us</a></li>
+                    <li class="item"><a href="userindex.php" onclick="return confirm('Are you sure you want to LOGOUT?')"><div class="icon-container">
+                    <svg class="icon1" viewBox="0 0 24 24" fill="#000000" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 12L13 12" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M18 15L20.913 12.087V12.087C20.961 12.039 20.961 11.961 20.913 11.913V11.913L18 9" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16 5V4.5V4.5C16 3.67157 15.3284 3 14.5 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H14.5C15.3284 21 16 20.3284 16 19.5V19.5V19" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    </div>
+                    </a></li>
                 </ul>
             </nav>
         </header>
@@ -106,10 +118,14 @@ mysqli_close($conn);
             <input type="text" id="status" name="status" placeholder="Enter status"
                 value="<?php echo htmlspecialchars($record['status']); ?>"><br>
 
-            <label for="size">Team size:</label>
+            <label for="size">Number of players:</label>
             <input type="text" id="size" name="size" placeholder="Enter team size"
                 value="<?php echo htmlspecialchars($record['size']); ?>"><br>
 
+            <label for="nsize">Number of players (for filter enter integer only):</label>
+            <input type="text" placeholder="Enter no. of players" name="nsize" value="<?php echo htmlspecialchars($record['nop']); ?>"><br>
+            <label for="tl">Time limit in minutes (for filter enter only integer):</label>
+            <input type="text" placeholder="Enter 0 if not applicable" name="tl" value="<?php echo htmlspecialchars($record['timelimit']); ?>"><br>
             <label for="limit">Time limit:</label>
             <input type="text" id="limit" name="limit" placeholder="Enter time limit"
                 value="<?php echo htmlspecialchars($record['tlimit']); ?>"><br>
@@ -146,6 +162,9 @@ mysqli_close($conn);
             <label for="Rules">Rules:</label>
             <textarea id="Rules" name="Rules"
                 placeholder="Enter rules"><?php echo htmlspecialchars($record['rules']); ?></textarea><br>
+            
+            <label for="vname">Video name:</label>
+            <textarea type="vname" placeholder="Enter video name" name="vname"><?php echo htmlspecialchars($record['vidname']); ?></textarea>
 
             <label for="video">Video links:</label>
             <textarea type="text" id="video" name="video"

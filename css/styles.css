@@ -264,3 +264,9 @@ a{
    position: relative;
    width: 40px;
 }
+.icon1{
+   width:20px
+}
+.icon1:hover svg{
+   fill: black;
+}

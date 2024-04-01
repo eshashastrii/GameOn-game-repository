@@ -1,4 +1,34 @@
-<!DOCTYPE html>
+<?php
+$sus = mysqli_connect("localhost", "root", "", "sports");
+
+if (mysqli_connect_error()) {
+    echo "Cannot Connect";
+}
+
+if (isset($_POST['username'], $_POST['password'])) {
+
+    $query = "SELECT * FROM `login` WHERE `Name`=? AND `Pass`=?";
+    
+    if ($stmt = mysqli_prepare($sus, $query)) {
+
+        mysqli_stmt_bind_param($stmt, "ss", $_POST['username'], $_POST['password']);
+        
+        mysqli_stmt_execute($stmt);
+        
+        $result = mysqli_stmt_get_result($stmt);
+        
+        if ($row = mysqli_fetch_assoc($result)) {
+            echo "Login successful";
+            header("Location:index.php");
+        } else {
+            echo "<script>alert('Incorrect Password or Username');</script>";
+        }
+        
+        mysqli_stmt_close($stmt);
+    }
+}
+?>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,9 +51,9 @@
         <div id="login-form">
             <h2>Admin Login</h2>
             <form action="#" method="POST">
-                <input type="text" name="username" placeholder="Username" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <button type="submit">Login</button>
+                <input type="text" name="username" placeholder="Username" >
+                <input type="password" name="password" placeholder="Password" >
+                <button type="submit" name="Signin">Login</button>
             </form>
             <div id="forgot-password">
                 <a href="#">Forgot Password?</a>
